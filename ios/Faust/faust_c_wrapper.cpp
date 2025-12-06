@@ -1,8 +1,8 @@
+#include "ios-faust.h"
+
 #include "faust_c_wrapper.h"
 
 #include <memory>
-
-#include "ios-faust.h"
 
 struct FaustDspHandle {
     std::unique_ptr<mydsp> dsp;
