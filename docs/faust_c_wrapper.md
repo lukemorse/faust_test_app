@@ -1,6 +1,6 @@
 # Faust C wrapper for iOS (FFI entry points)
 
-This lightweight C ABI sits in `ios_example/faust_c_wrapper.cpp`/`.h` and wraps the generated `mydsp` class from `ios-faust.h` so Flutter can bind to stable C symbols.
+This lightweight C ABI sits in `ios/Faust/faust_c_wrapper.cpp`/`.h` and wraps the generated `mydsp` class from `ios-faust.h` so Flutter can bind to stable C symbols. The sources are colocated with the Flutter iOS runner so they can be built into your app target instead of living only in `ios_example`.
 
 ## Exposed functions
 - `FaustDspHandle* faust_create(int sample_rate)`: construct the DSP, wire up the MapUI, and initialize at the requested sample rate.

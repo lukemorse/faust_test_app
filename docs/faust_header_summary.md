@@ -1,4 +1,4 @@
-# Faust DSP header quick reference (ios_example/ios-faust.h)
+# Faust DSP header quick reference (ios/Faust/ios-faust.h)
 
 ## DSP shape
 - `mydsp` implements the Faust `dsp` interface with **0 audio inputs** and **2 audio outputs** (stereo). It seeds a lookup table in `classInit`, tracks the sample rate via `instanceConstants`, and exposes standard lifecycle calls (`init`, `instanceInit`, `instanceResetUserInterface`, `instanceClear`, `compute`, `clone`).
