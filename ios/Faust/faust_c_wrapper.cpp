@@ -11,7 +11,7 @@ struct FaustDspHandle {
 
 static void faust_build_ui(FaustDspHandle* handle)
 {
-    handle->ui = std::make_unique<MapUI>();
+    handle->ui = std::unique_ptr<MapUI>(new MapUI());
     handle->dsp->buildUserInterface(handle->ui.get());
 }
 
@@ -24,7 +24,7 @@ FaustDspHandle* faust_create(int sample_rate)
     }
 
     auto* handle = new FaustDspHandle();
-    handle->dsp = std::make_unique<mydsp>();
+    handle->dsp = std::unique_ptr<mydsp>(new mydsp());
     faust_build_ui(handle);
     handle->dsp->init(sample_rate);
     return handle;
