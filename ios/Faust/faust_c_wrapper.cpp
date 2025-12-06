@@ -1,5 +1,3 @@
-#include "ios-faust.h"
-
 #include "faust_c_wrapper.h"
 
 #include <memory>
