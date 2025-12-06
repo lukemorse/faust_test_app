@@ -11,8 +11,8 @@
                 331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
                 3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
                 74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
-                A43C5E142C5C9A74009BFBBE /* libfaustwrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A43C5E132C5C9A74009BFBBE /* libfaustwrapper.a */; };
-                A43C5E162C5C9A8F009BFBBE /* ios-libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A43C5E152C5C9A8F009BFBBE /* ios-libsndfile.a */; };
+               A43C5E162C5C9A8F009BFBBE /* ios-libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A43C5E152C5C9A8F009BFBBE /* ios-libsndfile.a */; };
+               A47B47502C6D6ED30056BE96 /* faust_c_wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A47B474F2C6D6ED30056BE96 /* faust_c_wrapper.cpp */; };
                 97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
                 97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
                 97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -47,10 +47,10 @@
                 331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
                 331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
                 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-                A43C5E112C5C9A4A009BFBBE /* faust_c_wrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = faust_c_wrapper.h; sourceTree = "<group>"; };
-                A43C5E122C5C9A65009BFBBE /* ios-faust.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ios-faust.h"; sourceTree = "<group>"; };
-                A43C5E132C5C9A74009BFBBE /* libfaustwrapper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfaustwrapper.a; sourceTree = "<group>"; };
-                A43C5E152C5C9A8F009BFBBE /* ios-libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "ios-libsndfile.a"; path = "../ios_example/ios-libsndfile.a"; sourceTree = SOURCE_ROOT; };
+               A43C5E112C5C9A4A009BFBBE /* faust_c_wrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = faust_c_wrapper.h; sourceTree = "<group>"; };
+               A43C5E122C5C9A65009BFBBE /* ios-faust.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ios-faust.h"; sourceTree = "<group>"; };
+               A43C5E152C5C9A8F009BFBBE /* ios-libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "ios-libsndfile.a"; path = "../ios_example/ios-libsndfile.a"; sourceTree = SOURCE_ROOT; };
+               A47B474F2C6D6ED30056BE96 /* faust_c_wrapper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = faust_c_wrapper.cpp; sourceTree = "<group>"; };
                 74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
                 74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
                 7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
@@ -65,14 +65,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
                 97C146EB1CF9000F007C117D /* Frameworks */ = {
-                        isa = PBXFrameworksBuildPhase;
-                        buildActionMask = 2147483647;
-                        files = (
-                                A43C5E142C5C9A74009BFBBE /* libfaustwrapper.a in Frameworks */,
-                                A43C5E162C5C9A8F009BFBBE /* ios-libsndfile.a in Frameworks */,
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+                       isa = PBXFrameworksBuildPhase;
+                       buildActionMask = 2147483647;
+                       files = (
+                               A43C5E162C5C9A8F009BFBBE /* ios-libsndfile.a in Frameworks */,
+                       );
+                       runOnlyForDeploymentPostprocessing = 0;
+               };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -109,10 +108,10 @@
                 A43C5E102C5C9A35009BFBBE /* Faust */ = {
                         isa = PBXGroup;
                         children = (
-                                A43C5E112C5C9A4A009BFBBE /* faust_c_wrapper.h */,
-                                A43C5E122C5C9A65009BFBBE /* ios-faust.h */,
-                                A43C5E132C5C9A74009BFBBE /* libfaustwrapper.a */,
-                                A43C5E152C5C9A8F009BFBBE /* ios-libsndfile.a */,
+                               A43C5E112C5C9A4A009BFBBE /* faust_c_wrapper.h */,
+                               A43C5E122C5C9A65009BFBBE /* ios-faust.h */,
+                               A43C5E152C5C9A8F009BFBBE /* ios-libsndfile.a */,
+                               A47B474F2C6D6ED30056BE96 /* faust_c_wrapper.cpp */,
                         );
                         name = Faust;
                         path = Faust;
@@ -288,10 +287,11 @@
 		97C146EA1CF9000F007C117D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
-			files = (
-				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
-				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
-			);
+                               files = (
+                                       74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+                                       1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+                                       A47B47502C6D6ED30056BE96 /* faust_c_wrapper.cpp in Sources */,
+                               );
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
@@ -398,11 +398,7 @@
                                         "$(inherited)",
                                         "@executable_path/Frameworks",
                                 );
-                                OTHER_LDFLAGS = (
-                                        "$(inherited)",
-                                        "-lfaustwrapper",
-                                        "-lsndfile",
-                                );
+                               OTHER_LDFLAGS = "$(inherited)";
                                 PRODUCT_BUNDLE_IDENTIFIER = com.example.faustTestApp;
                                 PRODUCT_NAME = "$(TARGET_NAME)";
                                 SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -591,11 +587,7 @@
                                         "$(inherited)",
                                         "@executable_path/Frameworks",
                                 );
-                                OTHER_LDFLAGS = (
-                                        "$(inherited)",
-                                        "-lfaustwrapper",
-                                        "-lsndfile",
-                                );
+                               OTHER_LDFLAGS = "$(inherited)";
                                 PRODUCT_BUNDLE_IDENTIFIER = com.example.faustTestApp;
                                 PRODUCT_NAME = "$(TARGET_NAME)";
                                 SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -627,11 +619,7 @@
                                         "$(inherited)",
                                         "@executable_path/Frameworks",
                                 );
-                                OTHER_LDFLAGS = (
-                                        "$(inherited)",
-                                        "-lfaustwrapper",
-                                        "-lsndfile",
-                                );
+                               OTHER_LDFLAGS = "$(inherited)";
                                 PRODUCT_BUNDLE_IDENTIFIER = com.example.faustTestApp;
                                 PRODUCT_NAME = "$(TARGET_NAME)";
                                 SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
