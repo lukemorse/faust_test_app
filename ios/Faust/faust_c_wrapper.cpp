@@ -1,16 +1,19 @@
 #include "faust_c_wrapper.h"
 #include "ios-faust.h"
+#include "llvm-dsp-adapter.h"
+#include "APIUI.h"
+#include "faust-poly-engine.h"
 
 #include <memory>
 
 struct FaustDspHandle {
     std::unique_ptr<mydsp> dsp;
-    std::unique_ptr<MapUI> ui;
+    std::unique_ptr<APIUI> ui;
 };
 
 static void faust_build_ui(FaustDspHandle* handle)
 {
-    handle->ui = std::unique_ptr<MapUI>(new MapUI());
+    handle->ui = std::unique_ptr<APIUI>(new APIUI());
     handle->dsp->buildUserInterface(handle->ui.get());
 }
 
