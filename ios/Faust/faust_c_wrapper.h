@@ -2,6 +2,8 @@
 #define FAUST_C_WRAPPER_H
 
 #ifdef __cplusplus
+#include "ios-faust.h"
+
 extern "C" {
 #endif
 
