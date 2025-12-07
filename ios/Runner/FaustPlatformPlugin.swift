@@ -12,6 +12,10 @@ final class FaustPlatformPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
   }
 
   private let meterInterval: TimeInterval = 1.0 / 30.0
+  private let controlQueue = DispatchQueue(
+    label: "dev.faust.engine.control",
+    qos: .userInitiated
+  )
   private var engine: FaustAudioEngine?
   private var metersEventSink: FlutterEventSink?
   private var meterTimer: Timer?
@@ -42,24 +46,33 @@ final class FaustPlatformPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
       result(handleInitialize(arguments: call.arguments))
 
     case "start":
-      guard let engine = engine else {
-        result(false)
-        return
+      let didStart = controlQueue.sync { [weak self] in
+        guard let self, let engine = self.engine else { return false }
+        return engine.start()
       }
-      result(engine.start())
+      result(didStart)
 
     case "stop":
-      engine?.stop()
+      controlQueue.sync { [weak self] in
+        self?.engine?.stop()
+      }
       result(nil)
 
     case "teardown":
       stopMetering()
-      engine?.teardown()
-      engine = nil
+      controlQueue.sync { [weak self] in
+        guard let self else { return }
+        self.engine?.teardown()
+        self.engine = nil
+        self.meterAddresses.removeAll()
+      }
       result(nil)
 
     case "isRunning":
-      result(engine?.isRunning() ?? false)
+      let running = controlQueue.sync { [weak self] in
+        self?.engine?.isRunning() ?? false
+      }
+      result(running)
 
     case "setParameter":
       guard let args = call.arguments as? [String: Any],
@@ -72,7 +85,9 @@ final class FaustPlatformPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         ))
         return
       }
-      engine?.setParameter(address, value: value.floatValue)
+      controlQueue.sync { [weak self] in
+        self?.engine?.setParameter(address, value: value.floatValue)
+      }
       result(nil)
 
     case "getParameter":
@@ -85,11 +100,19 @@ final class FaustPlatformPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         ))
         return
       }
-      let value = engine?.getParameter(address) ?? 0.0
+      let value = controlQueue.sync { [weak self] in
+        self?.engine?.getParameter(address) ?? 0.0
+      }
       result(Double(value))
 
     case "listParameters":
-      result(engine?.parameterAddresses() ?? [])
+      let parameters = controlQueue.sync { [weak self] in
+        guard let self, let engine = self.engine else { return [] }
+        let addresses = engine.parameterAddresses() as? [String] ?? []
+        self.meterAddresses = addresses
+        return addresses
+      }
+      result(parameters)
 
     default:
       result(FlutterMethodNotImplemented)
@@ -103,11 +126,18 @@ final class FaustPlatformPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
       return false
     }
 
-    if engine == nil {
-        engine = FaustAudioEngine(sampleRate: Int32(sampleRate.intValue), bufferSize: Int32(bufferSize.intValue))
-      meterAddresses = engine?.parameterAddresses() as? [String] ?? []
+    return controlQueue.sync { [weak self] in
+      guard let self else { return false }
+
+      if engine == nil {
+        engine = FaustAudioEngine(
+          sampleRate: Int32(sampleRate.intValue),
+          bufferSize: Int32(bufferSize.intValue)
+        )
+        meterAddresses = engine?.parameterAddresses() as? [String] ?? []
+      }
+      return engine != nil
     }
-    return engine != nil
   }
 
   // MARK: - Meter streaming
@@ -140,20 +170,27 @@ final class FaustPlatformPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
   }
 
   private func emitMeters() {
-    guard let sink = metersEventSink, let engine else { return }
+    controlQueue.async { [weak self] in
+      guard let self else { return }
+      guard let sink = self.metersEventSink, let engine = self.engine else { return }
 
-    if meterAddresses.isEmpty {
-      meterAddresses = engine.parameterAddresses() as? [String] ?? []
+      if self.meterAddresses.isEmpty {
+        self.meterAddresses = engine.parameterAddresses() as? [String] ?? []
+      }
+
+      var values: [String: Double] = [:]
+      for address in self.meterAddresses {
+        values[address] = Double(engine.getParameter(address))
+      }
+
+      let payload: [String: Any] = [
+        "timestampMs": Int(Date().timeIntervalSince1970 * 1000),
+        "meters": values,
+      ]
+
+      DispatchQueue.main.async {
+        sink(payload)
+      }
     }
-
-    var values: [String: Double] = [:]
-    for address in meterAddresses {
-      values[address] = Double(engine.getParameter(address))
-    }
-
-    sink([
-      "timestampMs": Int(Date().timeIntervalSince1970 * 1000),
-      "meters": values,
-    ])
   }
 }
