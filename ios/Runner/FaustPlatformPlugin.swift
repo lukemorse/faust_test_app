@@ -104,7 +104,7 @@ final class FaustPlatformPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     }
 
     if engine == nil {
-      engine = FaustAudioEngine(sampleRate: sampleRate.intValue, bufferSize: bufferSize.intValue)
+        engine = FaustAudioEngine(sampleRate: Int32(sampleRate.intValue), bufferSize: Int32(bufferSize.intValue))
       meterAddresses = engine?.parameterAddresses() as? [String] ?? []
     }
     return engine != nil
