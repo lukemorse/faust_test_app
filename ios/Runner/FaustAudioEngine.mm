@@ -1,8 +1,10 @@
 #import "FaustAudioEngine.h"
 
+#import <cmath>
 #import <memory>
 
 #import "DSP/DspFaust.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface FaustAudioEngine () {
   std::unique_ptr<DspFaust> _dsp;
@@ -14,7 +16,26 @@
 - (instancetype)initWithSampleRate:(int)sampleRate bufferSize:(int)bufferSize {
   self = [super init];
   if (self) {
-    _dsp = std::make_unique<DspFaust>(sampleRate, bufferSize, /*auto_connect=*/true);
+    // Honor the active audio session's resolved format to avoid mismatches between
+    // the Core Audio render callback and the Faust driver.
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    const double resolvedSampleRate = session.sampleRate;
+    const double resolvedBufferSize = session.IOBufferDuration * resolvedSampleRate;
+
+    // Clamp to positive integers while preserving the requested values as a fallback.
+    const int effectiveSampleRate = resolvedSampleRate > 0 ? (int)llround(resolvedSampleRate) : sampleRate;
+    const int effectiveBufferSize = resolvedBufferSize > 0 ? (int)llround(resolvedBufferSize) : bufferSize;
+
+    if (effectiveSampleRate != sampleRate || effectiveBufferSize != bufferSize) {
+      NSLog(
+          @"FaustAudioEngine: overriding requested format (%d Hz, %d) with active session (%d Hz, %d)",
+          sampleRate,
+          bufferSize,
+          effectiveSampleRate,
+          effectiveBufferSize);
+    }
+
+    _dsp = std::make_unique<DspFaust>(effectiveSampleRate, effectiveBufferSize, /*auto_connect=*/true);
   }
   return self;
 }
