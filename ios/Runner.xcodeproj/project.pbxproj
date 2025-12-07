@@ -13,7 +13,8 @@
                 A3293D8B2F05CD6E00530A1A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3293D8A2F05CD6E00530A1A /* AudioToolbox.framework */; };
                 A3293D8D2F05CD6E00530A1A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3293D8C2F05CD6E00530A1A /* AVFoundation.framework */; };
                 A3293D8F2F05CD6E00530A1A /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3293D8E2F05CD6E00530A1A /* CoreMIDI.framework */; };
-                74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
+               74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
+                B205DB5D2F0BC12A00A5F9E6 /* FaustPlatformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B205DB5C2F0BC12A00A5F9E6 /* FaustPlatformPlugin.swift */; };
                 97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
                 97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
                 97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -67,6 +68,7 @@
                 A37F9A9C2EE6291100FF3E26 /* DspFaust.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DspFaust.h; sourceTree = "<group>"; };
                 A37F9A9D2EE6291100FF3E26 /* DspFaust.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DspFaust.cpp; sourceTree = "<group>"; };
                 A37F9A9E2EE6291100FF3E26 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+                B205DB5C2F0BC12A00A5F9E6 /* FaustPlatformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaustPlatformPlugin.swift; sourceTree = "<group>"; };
                 B2301E3A2F08D82000F9C4D3 /* FaustAudioEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaustAudioEngine.h; sourceTree = "<group>"; };
                 B2301E3B2F08D82000F9C4D3 /* FaustAudioEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FaustAudioEngine.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,6 +138,7 @@
                                 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
                                 B2301E3A2F08D82000F9C4D3 /* FaustAudioEngine.h */,
                                 B2301E3B2F08D82000F9C4D3 /* FaustAudioEngine.mm */,
+                                B205DB5C2F0BC12A00A5F9E6 /* FaustPlatformPlugin.swift */,
                                 74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
                                 74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
                         );
@@ -310,6 +313,7 @@
                             isa = PBXSourcesBuildPhase;
                             buildActionMask = 2147483647;
                             files = (
+                                B205DB5D2F0BC12A00A5F9E6 /* FaustPlatformPlugin.swift in Sources */,
                                 B2301E3C2F08D82000F9C4D3 /* FaustAudioEngine.mm in Sources */,
                                 74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
                                 1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
