@@ -9,29 +9,15 @@ import AVFoundation
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+    registerFaustPlugin()
     configureAudioSession()
-    _ = faustEngine.start()
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  override func applicationDidEnterBackground(_ application: UIApplication) {
-    faustEngine.stop()
+  private func registerFaustPlugin() {
+    guard let registrar = self.registrar(forPlugin: "FaustPlatformPlugin") else { return }
+    FaustPlatformPlugin.register(with: registrar)
   }
-
-  override func applicationWillEnterForeground(_ application: UIApplication) {
-    _ = faustEngine.start()
-  }
-
-  deinit {
-    faustEngine.teardown()
-  }
-
-  private lazy var faustEngine: FaustAudioEngine = {
-    // Default to a 44.1 kHz render format and a modest buffer size that align with the
-    // generated Faust driver defaults. This can be revisited once a concrete hardware
-    // configuration is known.
-    FaustAudioEngine(sampleRate: 44_100, bufferSize: 512)
-  }()
 
   private func configureAudioSession() {
     let session = AVAudioSession.sharedInstance()
