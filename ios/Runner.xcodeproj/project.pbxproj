@@ -14,6 +14,8 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		A37F9AA02EE6291100FF3E26 /* DspFaust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A37F9A9D2EE6291100FF3E26 /* DspFaust.cpp */; };
+		A37F9AA12EE6291100FF3E26 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A37F9A9E2EE6291100FF3E26 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,9 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A37F9A9C2EE6291100FF3E26 /* DspFaust.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DspFaust.h; sourceTree = "<group>"; };
+		A37F9A9D2EE6291100FF3E26 /* DspFaust.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DspFaust.cpp; sourceTree = "<group>"; };
+		A37F9A9E2EE6291100FF3E26 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +114,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				A37F9A9F2EE6291100FF3E26 /* DSP */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -119,6 +125,16 @@
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
 			path = Runner;
+			sourceTree = "<group>";
+		};
+		A37F9A9F2EE6291100FF3E26 /* DSP */ = {
+			isa = PBXGroup;
+			children = (
+				A37F9A9C2EE6291100FF3E26 /* DspFaust.h */,
+				A37F9A9D2EE6291100FF3E26 /* DspFaust.cpp */,
+				A37F9A9E2EE6291100FF3E26 /* README.md */,
+			);
+			path = DSP;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +230,7 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				A37F9AA12EE6291100FF3E26 /* README.md in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
@@ -270,6 +287,7 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				A37F9AA02EE6291100FF3E26 /* DspFaust.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
