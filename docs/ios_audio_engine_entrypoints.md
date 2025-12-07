@@ -1,6 +1,6 @@
 # iOS audio engine entry points
 
-Current iOS target is the default Flutter runner without a native audio engine. Audio-specific code paths are limited to the standard Flutter `AppDelegate` bootstrap and a bridging header that exposes the generated Faust C wrapper to Swift.
+Current iOS target (as in the latest `main`) is the default Flutter runner without a native audio engine. Audio-specific code paths are limited to the standard Flutter `AppDelegate` bootstrap and a bridging header that exposes the generated Faust C wrapper to Swift.
 
 ## Existing native touchpoints
 - **`ios/Runner/AppDelegate.swift`**: Default Flutter entry point that simply registers plugins in `application(_:didFinishLaunchingWithOptions:)`. No audio session configuration, audio graphs, or render callbacks exist.

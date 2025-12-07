@@ -7,5 +7,6 @@ This project is now configured to compile and link the Faust DSP wrapper directl
 - **Header search paths:** `$(PROJECT_DIR)/Faust/**` is on the Runner target header search paths so the generated Faust headers and bundled OSC library headers resolve without manual Xcode edits.
 - **Library search paths:** `$(PROJECT_DIR)/Faust` and `$(PROJECT_DIR)/../ios_example` are on the Runner target library search paths, keeping the bundled `ios-libsndfile.a` discoverable.
 - **Linked static libraries:** `ios_example/ios-libsndfile.a` is linked in the Runner target’s Frameworks phase for Faust code that depends on libsndfile.
+- **Link flags:** The Runner target’s `OTHER_LDFLAGS` use an inherited array (no custom flags) so they stay aligned with the latest Flutter runner defaults while still picking up linked static libraries added to the project file.
 
 These settings cover the C++ compilation and linking needs for the Faust DSP; subsequent steps can focus on audio graph wiring and Flutter channel/FFI bindings.
