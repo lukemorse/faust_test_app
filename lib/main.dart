@@ -15,7 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Faust Test App',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal)),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+      ),
       home: const FaustDemoPage(),
     );
   }
@@ -31,8 +33,9 @@ class FaustDemoPage extends StatefulWidget {
 class _FaustDemoPageState extends State<FaustDemoPage> {
   final FaustEngineService _engine = FaustEngineService();
   final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _valueController =
-      TextEditingController(text: '0.5');
+  final TextEditingController _valueController = TextEditingController(
+    text: '0.5',
+  );
 
   bool _initialized = false;
   bool _running = false;
@@ -57,7 +60,9 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
         bufferSize: 512,
       );
       if (!initialized) {
-        throw const FaustEngineException('Engine reported initialization failure');
+        throw const FaustEngineException(
+          'Engine reported initialization failure',
+        );
       }
 
       _parameterAddresses = await _engine.listParameters();
@@ -135,20 +140,23 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
   }
 
   void _subscribeToMeters() {
-    _meterSubscription ??= _engine.meterStream().listen((event) {
-      setState(() {
-        _latestMeters = event;
-      });
-    }, onError: (error) {
-      _showSnack('Meter stream error: $error');
-    });
+    _meterSubscription ??= _engine.meterStream().listen(
+      (event) {
+        setState(() {
+          _latestMeters = event;
+        });
+      },
+      onError: (error) {
+        _showSnack('Meter stream error: $error');
+      },
+    );
   }
 
   void _showSnack(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -169,22 +177,22 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
                 runSpacing: 8,
                 children: [
                   FilledButton.tonal(
-                    enableFeedback: false,
+                    style: FilledButton.styleFrom(enableFeedback: false),
                     onPressed: _busy ? null : _initialize,
                     child: const Text('Initialize'),
                   ),
                   FilledButton(
-                    enableFeedback: false,
+                    style: FilledButton.styleFrom(enableFeedback: false),
                     onPressed: _busy || !_initialized ? null : _start,
                     child: const Text('Start'),
                   ),
                   FilledButton(
-                    enableFeedback: false,
+                    style: FilledButton.styleFrom(enableFeedback: false),
                     onPressed: _busy || !_initialized ? null : _stop,
                     child: const Text('Stop'),
                   ),
                   FilledButton.tonal(
-                    enableFeedback: false,
+                    style: FilledButton.styleFrom(enableFeedback: false),
                     onPressed: _busy || !_initialized ? null : _teardown,
                     child: const Text('Teardown'),
                   ),
@@ -199,7 +207,10 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
                 ],
               ),
               const SizedBox(height: 20),
-              Text('Parameter controls', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Parameter controls',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -217,10 +228,10 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
                   Expanded(
                     child: TextField(
                       controller: _valueController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(
-                        labelText: 'Value',
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
                       ),
+                      decoration: const InputDecoration(labelText: 'Value'),
                     ),
                   ),
                 ],
@@ -229,13 +240,13 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
               Row(
                 children: [
                   FilledButton(
-                    enableFeedback: false,
+                    style: FilledButton.styleFrom(enableFeedback: false),
                     onPressed: _busy || !_initialized ? null : _setParameter,
                     child: const Text('Set parameter'),
                   ),
                   const SizedBox(width: 12),
                   OutlinedButton(
-                    enableFeedback: false,
+                    style: OutlinedButton.styleFrom(enableFeedback: false),
                     onPressed: _busy || !_initialized ? null : _getParameter,
                     child: const Text('Read parameter'),
                   ),
@@ -268,7 +279,9 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
                 Expanded(
                   child: ListView(
                     children: [
-                      Text('Timestamp: ${_latestMeters!.timestamp.toIso8601String()}'),
+                      Text(
+                        'Timestamp: ${_latestMeters!.timestamp.toIso8601String()}',
+                      ),
                       const SizedBox(height: 8),
                       ..._latestMeters!.meters.entries.map(
                         (entry) => ListTile(
