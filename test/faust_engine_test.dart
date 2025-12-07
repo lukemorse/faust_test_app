@@ -29,7 +29,7 @@ void main() {
           case 'getParameter':
             return 0.42;
           case 'listParameters':
-            return <String>["/gain", "/frequency", 123];
+            return <dynamic>["/gain", "/frequency", 123];
         }
         return null;
       },
