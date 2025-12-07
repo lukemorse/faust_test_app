@@ -167,18 +167,22 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
                 runSpacing: 8,
                 children: [
                   FilledButton.tonal(
+                    enableFeedback: false,
                     onPressed: _busy ? null : _initialize,
                     child: const Text('Initialize'),
                   ),
                   FilledButton(
+                    enableFeedback: false,
                     onPressed: _busy || !_initialized ? null : _start,
                     child: const Text('Start'),
                   ),
                   FilledButton(
+                    enableFeedback: false,
                     onPressed: _busy || !_initialized ? null : _stop,
                     child: const Text('Stop'),
                   ),
                   FilledButton.tonal(
+                    enableFeedback: false,
                     onPressed: _busy || !_initialized ? null : _teardown,
                     child: const Text('Teardown'),
                   ),
@@ -223,11 +227,13 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
               Row(
                 children: [
                   FilledButton(
+                    enableFeedback: false,
                     onPressed: _busy || !_initialized ? null : _setParameter,
                     child: const Text('Set parameter'),
                   ),
                   const SizedBox(width: 12),
                   OutlinedButton(
+                    enableFeedback: false,
                     onPressed: _busy || !_initialized ? null : _getParameter,
                     child: const Text('Read parameter'),
                   ),
