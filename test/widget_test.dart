@@ -13,7 +13,7 @@ void main() {
     expect(find.text('Stop'), findsOneWidget);
 
     expect(find.text('Parameter controls'), findsOneWidget);
-    expect(find.widgetWithText(TextField, '/gain'), findsOneWidget);
+    expect(find.text('Address'), findsOneWidget);
     expect(find.widgetWithText(TextField, '0.5'), findsOneWidget);
 
     // Status chips should default to inactive on first render.

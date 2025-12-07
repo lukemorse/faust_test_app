@@ -30,8 +30,7 @@ class FaustDemoPage extends StatefulWidget {
 
 class _FaustDemoPageState extends State<FaustDemoPage> {
   final FaustEngineService _engine = FaustEngineService();
-  final TextEditingController _addressController =
-      TextEditingController(text: '/gain');
+  final TextEditingController _addressController = TextEditingController();
   final TextEditingController _valueController =
       TextEditingController(text: '0.5');
 
@@ -62,6 +61,9 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
       }
 
       _parameterAddresses = await _engine.listParameters();
+      if (_parameterAddresses.isNotEmpty && _addressController.text.isEmpty) {
+        _addressController.text = _parameterAddresses.first;
+      }
       _subscribeToMeters();
       _initialized = initialized;
       _running = await _engine.isRunning();
@@ -99,7 +101,7 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
       final value = double.tryParse(_valueController.text);
       if (address.isEmpty || value == null) {
         throw const FaustEngineException(
-          'Enter a valid address (e.g. /gain) and numeric value.',
+          'Enter a valid parameter address and numeric value.',
         );
       }
       await _engine.setParameter(address, value);
@@ -207,7 +209,7 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
                       controller: _addressController,
                       decoration: const InputDecoration(
                         labelText: 'Address',
-                        hintText: '/gain',
+                        hintText: 'Select a parameter to control',
                       ),
                     ),
                   ),
