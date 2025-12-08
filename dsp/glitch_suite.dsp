@@ -10,6 +10,7 @@ percEnv(decay) = en.ar(0.001, decay, clockTrig);
 bitcrush(x, bits) = floor(x * pow(2, bits)) / pow(2, bits);
 pan2(sig, pan) = (sig * (1 - pan)) , (sig * (1 + pan));
 randHold(speed) = ba.sAndH(os.phasor(1, speed) < os.phasor(1, speed)', no.noise);
+probTrig(rate, thresh) = ba.sAndH(os.phasor(1, rate) < os.phasor(1, rate)', no.noise) > thresh;
 
 // GlitchPerc1 - sine with rapid random motion
 gp1Freq = hslider("h:GlitchPerc1/Freq", 200, 80, 800, 1);
@@ -88,7 +89,7 @@ hr22Density = hslider("h:HatRoll22/Density", 16, 2, 64, 1);
 hr22Amp = hslider("h:HatRoll22/Amp", 0.14, 0, 1, 0.01);
 hr22Pan = hslider("h:HatRoll22/Pan", 0, -1, 1, 0.01);
 hr22Env = en.ar(0.001, hr22Decay * 0.5, clockTrig);
-hr22Trig = (no.dust(hr22Density) * hr22Env) > 0.0;
+hr22Trig = probTrig(hr22Density, 0.4) * hr22Env;
 hr22HitEnv = en.adsr(0.0005, hr22Decay, 0, 0, hr22Trig);
 hr22Noise = fi.highpass(2, 9000, no.noise) * hr22HitEnv * 1.5;
 hr22Sig = hr22Noise * hr22Amp;
