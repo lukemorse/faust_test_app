@@ -7,7 +7,7 @@ clockTrig = clockPh < clockPh';
 
 // Utility helpers
 percEnv(decay) = en.ar(0.001, decay, clockTrig);
-bitcrush(x, bits) = ba.floor(x * pow(2, bits)) / pow(2, bits);
+bitcrush(x, bits) = floor(x * pow(2, bits)) / pow(2, bits);
 pan2(sig, pan) = (sig * (1 - pan)) , (sig * (1 + pan));
 randHold(speed) = ba.sAndH(os.phasor(1, speed) < os.phasor(1, speed)', no.noise);
 
