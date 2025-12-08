@@ -8,9 +8,10 @@ clockTrig = clockPh < clockPh';
 // Utility helpers
 percEnv(decay) = en.ar(0.001, decay, clockTrig);
 bitcrush(x, bits) = floor(x * pow(2, bits)) / pow(2, bits);
-pan2(sig, pan) = (sig * (1 - pan)) , (sig * (1 + pan));
 randHold(speed) = ba.sAndH(os.phasor(1, speed) < os.phasor(1, speed)', no.noise);
 probTrig(rate, thresh) = ba.sAndH(os.phasor(1, rate) < os.phasor(1, rate)', no.noise) > thresh;
+panGainL(p) = 0.5 * (1 - p);
+panGainR(p) = 0.5 * (1 + p);
 
 // GlitchPerc1 - sine with rapid random motion
 gp1Freq = hslider("h:GlitchPerc1/Freq", 200, 80, 800, 1);
@@ -21,7 +22,8 @@ gp1Env = percEnv(gp1Decay);
 gp1FreqMod = 0.5 + randHold(20) * 0.5;
 gp1AmpMod = 0.5 + randHold(100) * 0.5;
 gp1Sig = os.osc(gp1Freq * gp1FreqMod) * gp1Env * gp1AmpMod * gp1Amp;
-gp1Out = pan2(gp1Sig, gp1Pan);
+gp1L = gp1Sig * panGainL(gp1Pan);
+gp1R = gp1Sig * panGainR(gp1Pan);
 
 // BitNoisePerc2 - crushed noise burst
 bn2Bits = hslider("h:BitNoisePerc2/Bits", 4, 2, 10, 1);
@@ -32,7 +34,8 @@ bn2Env = percEnv(bn2Decay);
 bn2Raw = no.noise * bn2Env;
 bn2Crushed = bitcrush(bn2Raw * 0.15, bn2Bits);
 bn2Sig = bn2Crushed * bn2Amp;
-bn2Out = pan2(bn2Sig, bn2Pan);
+bn2L = bn2Sig * panGainL(bn2Pan);
+bn2R = bn2Sig * panGainR(bn2Pan);
 
 // MetallicZap3 - resonant ping with airy edges
 mz3Freq = hslider("h:MetallicZap3/Freq", 1000, 300, 4000, 1);
@@ -43,7 +46,8 @@ mz3Env = percEnv(mz3Decay);
 mz3Ping = fi.resonbp(clockTrig * mz3Env * 6, mz3Freq, 0.02);
 mz3Noise = fi.bandpass(2, mz3Freq * (0.8 + randHold(10) * 0.4), 0.05, no.noise * 0.1) * 0.2;
 mz3Sig = (mz3Ping + mz3Noise) * mz3Amp;
-mz3Out = pan2(mz3Sig, mz3Pan);
+mz3L = mz3Sig * panGainL(mz3Pan);
+mz3R = mz3Sig * panGainR(mz3Pan);
 
 // StutterGrain4 - noisy combed grains with moving filters
 sg4Freq = hslider("h:StutterGrain4/Freq", 800, 200, 2400, 1);
@@ -57,7 +61,8 @@ sg4Comb = de.delay(0.2, 0.04 + randHold(5) * 0.12, sg4Color * sg4Flutter) + sg4C
 sg4Filt = fi.bandpass(2, sg4Freq * (0.8 + randHold(2) * 0.4), 0.12, sg4Comb);
 sg4Burst = no.noise * (ba.sAndH(clockTrig, no.noise) > 0.6) * 0.15;
 sg4Sig = (sg4Filt + sg4Burst) * sg4Amp;
-sg4Out = pan2(sg4Sig, sg4Pan);
+sg4L = sg4Sig * panGainL(sg4Pan);
+sg4R = sg4Sig * panGainR(sg4Pan);
 
 // ZapCrush5 - pulse ping through decimator with dust
 zc5Freq = hslider("h:ZapCrush5/Freq", 800, 150, 3000, 1);
@@ -71,7 +76,8 @@ zc5Noise = fi.bandpass(2, zc5Freq * (0.8 + randHold(10) * 0.4), 0.05, no.noise *
 zc5Dust = (ba.sAndH(clockTrig, no.noise) > 0.7) * 0.1;
 zc5Crushed = bitcrush(zc5Pulse + zc5Noise + zc5Dust, zc5Crush);
 zc5Sig = zc5Crushed * zc5Amp;
-zc5Out = pan2(zc5Sig, zc5Pan);
+zc5L = zc5Sig * panGainL(zc5Pan);
+zc5R = zc5Sig * panGainR(zc5Pan);
 
 // MetalBurst6 - bright hats with random rolls
 mb6Decay = hslider("h:MetalBurst6/Decay", 0.045, 0.01, 0.15, 0.001);
@@ -81,7 +87,8 @@ mb6Env = en.ar(0.0005, mb6Decay, clockTrig);
 mb6Noise = fi.highpass(2, 7000, no.noise) * mb6Env * 1.5;
 mb6Flam = (ba.sAndH(clockTrig, no.noise) > 0.4) * no.noise * mb6Env * 0.5;
 mb6Sig = (mb6Noise + mb6Flam) * mb6Amp;
-mb6Out = pan2(mb6Sig, mb6Pan);
+mb6L = mb6Sig * panGainL(mb6Pan);
+mb6R = mb6Sig * panGainR(mb6Pan);
 
 // HatRoll22 - short rolling hats gated by density
 hr22Decay = hslider("h:HatRoll22/Decay", 0.03, 0.01, 0.12, 0.001);
@@ -93,7 +100,8 @@ hr22Trig = probTrig(hr22Density, 0.4) * hr22Env;
 hr22HitEnv = en.adsr(0.0005, hr22Decay, 0, 0, hr22Trig);
 hr22Noise = fi.highpass(2, 9000, no.noise) * hr22HitEnv * 1.5;
 hr22Sig = hr22Noise * hr22Amp;
-hr22Out = pan2(hr22Sig, hr22Pan);
+hr22L = hr22Sig * panGainL(hr22Pan);
+hr22R = hr22Sig * panGainR(hr22Pan);
 
 // BitMetal7 - noisy ring with high-pass motion
 bm7Freq = hslider("h:BitMetal7/Freq", 900, 200, 3000, 1);
@@ -106,7 +114,8 @@ bm7Noise = bitcrush(no.noise * bm7Env, bm7Bits);
 bm7HP = fi.highpass(2, bm7Freq * (0.7 + randHold(8) * 0.6), bm7Noise);
 bm7Ring = fi.resonbp(clockTrig * 0.3, bm7Freq, 0.01) * bm7Env * 0.3;
 bm7Sig = (bm7HP + bm7Ring) * bm7Amp;
-bm7Out = pan2(bm7Sig, bm7Pan);
+bm7L = bm7Sig * panGainL(bm7Pan);
+bm7R = bm7Sig * panGainR(bm7Pan);
 
 // SineKick21 - deep kick with pitch bend and click
 sk21Freq = hslider("h:SineKick21/Freq", 50, 30, 120, 1);
@@ -119,8 +128,10 @@ sk21Body = os.osc(sk21Freq * sk21PitchEnv) * sk21Env * sk21Amp * 2;
 sk21Sub = os.osc(sk21Freq * 0.5) * sk21Env * sk21Amp * 0.5;
 sk21Click = fi.highpass(2, 7000, no.noise) * sk21Env * 0.2;
 sk21Sig = (sk21Body + sk21Sub + sk21Click) * 0.6;
-sk21Out = pan2(sk21Sig, sk21Pan);
+sk21L = sk21Sig * panGainL(sk21Pan);
+sk21R = sk21Sig * panGainR(sk21Pan);
 
 // Mix and output
-mix = gp1Out + bn2Out + mz3Out + sg4Out + zc5Out + mb6Out + hr22Out + bm7Out + sk21Out;
-process = mix;
+mixL = gp1L + bn2L + mz3L + sg4L + zc5L + mb6L + hr22L + bm7L + sk21L;
+mixR = gp1R + bn2R + mz3R + sg4R + zc5R + mb6R + hr22R + bm7R + sk21R;
+process = mixL, mixR;
