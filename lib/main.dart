@@ -41,12 +41,13 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
   bool _running = false;
   bool _busy = false;
   List<String> _parameterAddresses = const [];
-  MeterEvent? _latestMeters;
-  StreamSubscription<MeterEvent>? _meterSubscription;
+  // Do this if you want to show meter values in the UI
+  // MeterEvent? _latestMeters;
+  // StreamSubscription<MeterEvent>? _meterSubscription;
 
   @override
   void dispose() {
-    _meterSubscription?.cancel();
+    // _meterSubscription?.cancel();
     _addressController.dispose();
     _valueController.dispose();
     _engine.teardown();
@@ -69,7 +70,7 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
       if (_parameterAddresses.isNotEmpty && _addressController.text.isEmpty) {
         _addressController.text = _parameterAddresses.first;
       }
-      _subscribeToMeters();
+      // _subscribeToMeters();
       _initialized = initialized;
       _running = await _engine.isRunning();
     });
@@ -94,9 +95,9 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
       _running = false;
       _initialized = false;
       _parameterAddresses = const [];
-      _latestMeters = null;
-      await _meterSubscription?.cancel();
-      _meterSubscription = null;
+      // _latestMeters = null;
+      // await _meterSubscription?.cancel();
+      // _meterSubscription = null;
     });
   }
 
@@ -119,8 +120,12 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
       if (address.isEmpty) {
         throw const FaustEngineException('Enter a parameter address to read');
       }
-      final value = await _engine.getParameter(address);
-      _valueController.text = value.toStringAsFixed(3);
+      setState(() {
+        _runAction(() async {
+          final value = await _engine.getParameter(address);
+          _valueController.text = value.toStringAsFixed(3);
+        });
+      });
     });
   }
 
@@ -139,18 +144,18 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
     }
   }
 
-  void _subscribeToMeters() {
-    _meterSubscription ??= _engine.meterStream().listen(
-      (event) {
-        setState(() {
-          _latestMeters = event;
-        });
-      },
-      onError: (error) {
-        _showSnack('Meter stream error: $error');
-      },
-    );
-  }
+  // void _subscribeToMeters() {
+  //   _meterSubscription ??= _engine.meterStream().listen(
+  //     (event) {
+  //       setState(() {
+  //         _latestMeters = event;
+  //       });
+  //     },
+  //     onError: (error) {
+  //       _showSnack('Meter stream error: $error');
+  //     },
+  //   );
+  // }
 
   void _showSnack(String message) {
     if (!mounted) return;
@@ -169,131 +174,118 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Wrap(
-                spacing: 12,
-                runSpacing: 8,
-                children: [
-                  FilledButton.tonal(
-                    style: FilledButton.styleFrom(enableFeedback: false),
-                    onPressed: _busy ? null : _initialize,
-                    child: const Text('Initialize'),
-                  ),
-                  FilledButton(
-                    style: FilledButton.styleFrom(enableFeedback: false),
-                    onPressed: _busy || !_initialized ? null : _start,
-                    child: const Text('Start'),
-                  ),
-                  FilledButton(
-                    style: FilledButton.styleFrom(enableFeedback: false),
-                    onPressed: _busy || !_initialized ? null : _stop,
-                    child: const Text('Stop'),
-                  ),
-                  FilledButton.tonal(
-                    style: FilledButton.styleFrom(enableFeedback: false),
-                    onPressed: _busy || !_initialized ? null : _teardown,
-                    child: const Text('Teardown'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  _StatusChip(label: 'Initialized', active: _initialized),
-                  const SizedBox(width: 8),
-                  _StatusChip(label: 'Running', active: _running),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Parameter controls',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextField(
-                      controller: _addressController,
-                      decoration: const InputDecoration(
-                        labelText: 'Address',
-                        hintText: 'Select a parameter to control',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: TextField(
-                      controller: _valueController,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      decoration: const InputDecoration(labelText: 'Value'),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  FilledButton(
-                    style: FilledButton.styleFrom(enableFeedback: false),
-                    onPressed: _busy || !_initialized ? null : _setParameter,
-                    child: const Text('Set parameter'),
-                  ),
-                  const SizedBox(width: 12),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(enableFeedback: false),
-                    onPressed: _busy || !_initialized ? null : _getParameter,
-                    child: const Text('Read parameter'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              if (_parameterAddresses.isNotEmpty) ...[
-                Text('Published parameters (${_parameterAddresses.length})'),
-                const SizedBox(height: 6),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 6,
-                  children: _parameterAddresses
-                      .map(
-                        (address) => Chip(
-                          label: Text(address),
-                          visualDensity: VisualDensity.compact,
-                        ),
-                      )
-                      .toList(),
+                  spacing: 12,
+                  runSpacing: 8,
+                  children: [
+                    FilledButton.tonal(
+                      style: FilledButton.styleFrom(enableFeedback: false),
+                      onPressed: _busy ? null : _initialize,
+                      child: const Text('Initialize'),
+                    ),
+                    FilledButton(
+                      style: FilledButton.styleFrom(enableFeedback: false),
+                      onPressed: _busy || !_initialized ? null : _start,
+                      child: const Text('Start'),
+                    ),
+                    FilledButton(
+                      style: FilledButton.styleFrom(enableFeedback: false),
+                      onPressed: _busy || !_initialized ? null : _stop,
+                      child: const Text('Stop'),
+                    ),
+                    FilledButton.tonal(
+                      style: FilledButton.styleFrom(enableFeedback: false),
+                      onPressed: _busy || !_initialized ? null : _teardown,
+                      child: const Text('Teardown'),
+                    ),
+                  ],
                 ),
-              ] else
-                const Text('Initialize to load Faust parameter addresses.'),
-              const Divider(height: 32),
-              Text('Meters', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              if (_latestMeters == null)
-                const Text('No meter data received yet.')
-              else
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Text(
-                        'Timestamp: ${_latestMeters!.timestamp.toIso8601String()}',
-                      ),
-                      const SizedBox(height: 8),
-                      ..._latestMeters!.meters.entries.map(
-                        (entry) => ListTile(
-                          dense: true,
-                          title: Text(entry.key),
-                          trailing: Text(entry.value.toStringAsFixed(3)),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    _StatusChip(label: 'Initialized', active: _initialized),
+                    const SizedBox(width: 8),
+                    _StatusChip(label: 'Running', active: _running),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Parameter controls',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextField(
+                        controller: _addressController,
+                        decoration: const InputDecoration(
+                          labelText: 'Address',
+                          hintText: 'Select a parameter to control',
                         ),
                       ),
-                    ],
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: TextField(
+                        controller: _valueController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        decoration: const InputDecoration(labelText: 'Value'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    FilledButton(
+                      style: FilledButton.styleFrom(enableFeedback: false),
+                      onPressed: _busy || !_initialized ? null : _setParameter,
+                      child: const Text('Set parameter'),
+                    ),
+                    const SizedBox(width: 12),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(enableFeedback: false),
+                      onPressed: _busy || !_initialized ? null : _getParameter,
+                      child: const Text('Read parameter'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                if (_parameterAddresses.isNotEmpty) ...[
+                  Text('Published parameters (${_parameterAddresses.length})'),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: _parameterAddresses
+                        .map(
+                          (address) => GestureDetector(
+                            onTap: () {
+                              _getParameter();
+                              _addressController.text = address;
+                            },
+                            child: Chip(
+                              label: Text(address),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
-                ),
-            ],
+                ] else
+                  const Text('Initialize to load Faust parameter addresses.'),
+                // const Divider(height: 32),
+                // Text('Meters', style: Theme.of(context).textTheme.titleMedium),
+              ],
+            ),
           ),
         ),
       ),
@@ -314,7 +306,7 @@ class _StatusChip extends StatelessWidget {
       label: Text(label),
       backgroundColor: active
           ? colorScheme.primaryContainer
-          : colorScheme.surfaceVariant,
+          : colorScheme.surfaceContainerHighest,
       avatar: Icon(
         active ? Icons.check_circle : Icons.cancel,
         color: active ? colorScheme.primary : colorScheme.outline,
