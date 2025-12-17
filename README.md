@@ -47,3 +47,5 @@ The included demo page (`lib/main.dart`) wraps these calls with buttons, text in
 - `ios/Runner/DSP/FAUST_INVENTORY.md`: Generated file inventory, licensing, and build flags.
 - `ios/Runner/DSP/AUDIO_ENGINE_ENTRYPOINTS.md`: Notes on where the Faust driver and render callbacks run.
 - `ios/Runner/DSP/FLUTTER_BRIDGE_API.md`: Method/event channel contract between Dart and iOS.
+
+To test .dsp files: `faust2caqt ./dsp/glitch_suite.dsp`
