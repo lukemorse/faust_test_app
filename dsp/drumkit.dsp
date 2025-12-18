@@ -220,12 +220,42 @@ shimmerwash_synth = environment {
 }.sound;
 
 //===========================================
+// GLITCH PERC - Sine with rapid random motion
+//===========================================
+glitchperc_synth = environment {
+    steps = hslider("h:5_GlitchPerc/[0]Steps", 16, 1, 32, 1);
+    pulses = hslider("h:5_GlitchPerc/[1]Pulses", 5, 0, 32, 1);
+    rotate = hslider("h:5_GlitchPerc/[2]Rotate", 0, 0, 32, 1);
+    freq = hslider("h:5_GlitchPerc/[3]Freq", 200, 80, 800, 1);
+    decay = hslider("h:5_GlitchPerc/[4]Decay", 0.1, 0.02, 0.6, 0.001);
+    glitch = hslider("h:5_GlitchPerc/[5]Glitch", 0.7, 0, 1, 0.01);
+    chaos = hslider("h:5_GlitchPerc/[6]Chaos", 0.5, 0, 1, 0.01);
+
+    trigFreq = master_tempo / 60;
+    phasor = os.phasor(1, trigFreq);
+    clock = phasor < phasor';
+    eucGate = euclidean(steps, pulses, rotate, clock);
+    trigger = eucGate;
+    
+    ampEnv = en.ar(0.001, decay, trigger);
+    
+    // Random hold for frequency and amplitude modulation
+    freqModSpeed = 20 + chaos * 80;
+    ampModSpeed = 100 + chaos * 200;
+    freqMod = 0.5 + ba.sAndH(os.phasor(1, freqModSpeed) < os.phasor(1, freqModSpeed)', no.noise) * 0.5 * glitch;
+    ampMod = 0.5 + ba.sAndH(os.phasor(1, ampModSpeed) < os.phasor(1, ampModSpeed)', no.noise) * 0.5 * glitch;
+    
+    glitchOsc = os.osc(freq * freqMod);
+    sound = glitchOsc * ampEnv * ampMod * 0.4;
+}.sound;
+
+//===========================================
 // MASTER MIXER
 //===========================================
 master_gain = hslider("v:Master/[1]Gain", 0.7, 0, 1, 0.01);
 stereo_width = hslider("v:Master/[2]Stereo Width", 0.7, 0, 1, 0.01);
 
-mixed = crystalbells_synth + wobblezap_synth + bubblepop_synth + shimmerwash_synth;
+mixed = crystalbells_synth + wobblezap_synth + bubblepop_synth + shimmerwash_synth + glitchperc_synth;
 
 // Stereo processing with decorrelation
 stereo_processor(x) = left, right
