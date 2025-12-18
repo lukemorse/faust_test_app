@@ -223,7 +223,20 @@ shimmerwash_synth = environment {
 // MASTER MIXER
 //===========================================
 master_gain = hslider("v:Master/[1]Gain", 0.7, 0, 1, 0.01);
+stereo_width = hslider("v:Master/[2]Stereo Width", 0.7, 0, 1, 0.01);
 
 mixed = crystalbells_synth + wobblezap_synth + bubblepop_synth + shimmerwash_synth;
 
-process = mixed * master_gain <: _, _;
+// Stereo processing with decorrelation
+stereo_processor(x) = left, right
+with {
+    // Create decorrelated signals using all-pass filters
+    decorr1 = fi.allpass_fcomb(1024, 512, 0.5, x);
+    decorr2 = fi.allpass_fcomb(1024, 768, 0.5, x);
+    
+    // Mix original and decorrelated signals based on stereo width
+    left = x + decorr1 * stereo_width;
+    right = x + decorr2 * stereo_width;
+};
+
+process = mixed * master_gain : stereo_processor;
