@@ -4,6 +4,7 @@ import("stdfaust.lib");
 // MASTER CONTROLS
 //===========================================
 master_tempo = hslider("v:Master/[0]Tempo (BPM)", 120, 10, 480, 1);
+transport_running = checkbox("v:Master/[1]Start/Stop");
 
 //===========================================
 // EUCLIDEAN RHYTHM GENERATOR
@@ -46,7 +47,7 @@ crystalbells_synth = environment {
 
     trigFreq = master_tempo / 60;
     phasor = os.phasor(1, trigFreq);
-    clock = phasor < phasor';
+    clock = (phasor < phasor') * transport_running;
     eucGate = euclidean(steps, pulses, rotate, clock);
     trigger = eucGate;
     
@@ -92,7 +93,7 @@ wobblezap_synth = environment {
 
     trigFreq = master_tempo / 60;
     phasor = os.phasor(1, trigFreq);
-    clock = phasor < phasor';
+    clock = (phasor < phasor') * transport_running;
     eucGate = euclidean(steps, pulses, rotate, clock);
     trigger = eucGate;
     
@@ -131,7 +132,7 @@ bubblepop_synth = environment {
 
     trigFreq = master_tempo / 60;
     phasor = os.phasor(1, trigFreq);
-    clock = phasor < phasor';
+    clock = (phasor < phasor') * transport_running;
     eucGate = euclidean(steps, pulses, rotate, clock);
     trigger = eucGate;
     
@@ -177,7 +178,7 @@ shimmerwash_synth = environment {
 
     trigFreq = master_tempo / 60;
     phasor = os.phasor(1, trigFreq);
-    clock = phasor < phasor';
+    clock = (phasor < phasor') * transport_running;
     eucGate = euclidean(steps, pulses, rotate, clock);
     trigger = eucGate;
     
@@ -233,7 +234,7 @@ glitchperc_synth = environment {
 
     trigFreq = master_tempo / 60;
     phasor = os.phasor(1, trigFreq);
-    clock = phasor < phasor';
+    clock = (phasor < phasor') * transport_running;
     eucGate = euclidean(steps, pulses, rotate, clock);
     trigger = eucGate;
     
@@ -252,8 +253,8 @@ glitchperc_synth = environment {
 //===========================================
 // MASTER MIXER
 //===========================================
-master_gain = hslider("v:Master/[1]Gain", 0.7, 0, 1, 0.01);
-stereo_width = hslider("v:Master/[2]Stereo Width", 0.7, 0, 1, 0.01);
+master_gain = hslider("v:Master/[2]Gain", 0.7, 0, 1, 0.01);
+stereo_width = hslider("v:Master/[3]Stereo Width", 0.7, 0, 1, 0.01);
 
 mixed = crystalbells_synth + wobblezap_synth + bubblepop_synth + shimmerwash_synth + glitchperc_synth;
 

@@ -43,9 +43,31 @@ final sub = engine.meterStream().listen((meters) {
 
 The included demo page (`lib/main.dart`) wraps these calls with buttons, text inputs, and meter readouts so you can verify that parameter changes affect audio output in real time. Run `flutter run` on an iOS device or simulator and press **Initialize** then **Start** to boot the Faust DSP before adjusting values.
 
-## Additional references
-- `ios/Runner/DSP/FAUST_INVENTORY.md`: Generated file inventory, licensing, and build flags.
-- `ios/Runner/DSP/AUDIO_ENGINE_ENTRYPOINTS.md`: Notes on where the Faust driver and render callbacks run.
-- `ios/Runner/DSP/FLUTTER_BRIDGE_API.md`: Method/event channel contract between Dart and iOS.
+## DSP development workflow
 
-To test .dsp files: `faust2caqt ./dsp/glitch_suite.dsp`
+### Desktop preview (fastest iteration)
+
+Preview DSP changes instantly on macOS without rebuilding the iOS app:
+
+```bash
+faust2caqt ./dsp/drumkit.dsp
+```
+
+This builds and launches a standalone CoreAudio+Qt app with a full parameter UI.
+
+### Build for iOS
+
+Use the included script to regenerate the iOS C++ sources from a `.dsp` file and optionally run the app:
+
+```bash
+# Generate and copy iOS sources
+./build_dsp.sh dsp/drumkit.dsp
+
+# Generate, copy, and run the Flutter app
+./build_dsp.sh dsp/drumkit.dsp --run
+```
+
+## Additional references
+- `ios/Runner/DSP/docs/FAUST_INVENTORY.md`: Generated file inventory, licensing, and build flags.
+- `ios/Runner/DSP/docs/AUDIO_ENGINE_ENTRYPOINTS.md`: Notes on where the Faust driver and render callbacks run.
+- `ios/Runner/DSP/docs/FLUTTER_BRIDGE_API.md`: Method/event channel contract between Dart and iOS.
