@@ -28,6 +28,18 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        ndk {
+            // ABIs to build the native Faust DSP for. Trim to speed up local builds.
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86_64")
+        }
+    }
+
+    // Build the faust2api-generated DSP into libdsp_faust.so.
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
     }
 
     buildTypes {

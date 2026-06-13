@@ -18,7 +18,6 @@
 		A3293D8D2F05CD6E00530A1A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3293D8C2F05CD6E00530A1A /* AVFoundation.framework */; };
 		A3293D8F2F05CD6E00530A1A /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3293D8E2F05CD6E00530A1A /* CoreMIDI.framework */; };
 		A37F9AA02EE6291100FF3E26 /* DspFaust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A37F9A9D2EE6291100FF3E26 /* DspFaust.cpp */; };
-		A37F9AA12EE6291100FF3E26 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A37F9A9E2EE6291100FF3E26 /* README.md */; };
 		B205DB5D2F0BC12A00A5F9E6 /* FaustPlatformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B205DB5C2F0BC12A00A5F9E6 /* FaustPlatformPlugin.swift */; };
 		B2301E3C2F08D82000F9C4D3 /* FaustAudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2301E3B2F08D82000F9C4D3 /* FaustAudioEngine.mm */; };
 /* End PBXBuildFile section */
@@ -67,7 +66,6 @@
 		A3293D8E2F05CD6E00530A1A /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		A37F9A9C2EE6291100FF3E26 /* DspFaust.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DspFaust.h; sourceTree = "<group>"; };
 		A37F9A9D2EE6291100FF3E26 /* DspFaust.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DspFaust.cpp; sourceTree = "<group>"; };
-		A37F9A9E2EE6291100FF3E26 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B205DB5C2F0BC12A00A5F9E6 /* FaustPlatformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaustPlatformPlugin.swift; sourceTree = "<group>"; };
 		B2301E3A2F08D82000F9C4D3 /* FaustAudioEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaustAudioEngine.h; sourceTree = "<group>"; };
 		B2301E3B2F08D82000F9C4D3 /* FaustAudioEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FaustAudioEngine.mm; sourceTree = "<group>"; };
@@ -160,7 +158,6 @@
 			children = (
 				A37F9A9C2EE6291100FF3E26 /* DspFaust.h */,
 				A37F9A9D2EE6291100FF3E26 /* DspFaust.cpp */,
-				A37F9A9E2EE6291100FF3E26 /* README.md */,
 			);
 			path = DSP;
 			sourceTree = "<group>";
@@ -258,7 +255,6 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				A37F9AA12EE6291100FF3E26 /* README.md in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);

@@ -120,12 +120,8 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
       if (address.isEmpty) {
         throw const FaustEngineException('Enter a parameter address to read');
       }
-      setState(() {
-        _runAction(() async {
-          final value = await _engine.getParameter(address);
-          _valueController.text = value.toStringAsFixed(3);
-        });
-      });
+      final value = await _engine.getParameter(address);
+      _valueController.text = value.toStringAsFixed(3);
     });
   }
 
@@ -269,8 +265,8 @@ class _FaustDemoPageState extends State<FaustDemoPage> {
                         .map(
                           (address) => GestureDetector(
                             onTap: () {
-                              _getParameter();
                               _addressController.text = address;
+                              _getParameter();
                             },
                             child: Chip(
                               label: Text(address),
